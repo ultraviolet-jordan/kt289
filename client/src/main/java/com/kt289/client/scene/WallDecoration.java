@@ -1,0 +1,22 @@
+package com.kt289.client.scene;
+
+import com.kt289.client.graphic.Model;
+import com.kt289.client.graphic.Rasterizer;
+import com.kt289.client.graphic.Rasterizer3D;
+import com.kt289.client.graphic.VertexNormal;
+import com.kt289.client.render.Renderable;
+
+public class WallDecoration {
+
+    public int anInt308;
+    public int anInt309;
+    public int anInt310;
+    public int anInt311;
+    public int anInt312;
+    public Renderable aClass44_Sub3_Sub4_313;
+    public int anInt314;
+    public byte aByte315;
+
+    public WallDecoration() {
+    }
+}

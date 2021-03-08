@@ -1,0 +1,23 @@
+package com.kt289.client.scene;
+
+import com.kt289.client.graphic.Model;
+import com.kt289.client.graphic.Rasterizer;
+import com.kt289.client.graphic.Rasterizer3D;
+import com.kt289.client.graphic.VertexNormal;
+import com.kt289.client.render.Renderable;
+
+public class Wall {
+
+    public int anInt572;
+    public int anInt573;
+    public int anInt574;
+    public int anInt575;
+    public int anInt576;
+    public Renderable aClass44_Sub3_Sub4_577;
+    public Renderable aClass44_Sub3_Sub4_578;
+    public int anInt579;
+    public byte aByte580;
+
+    public Wall() {
+    }
+}
