@@ -9,7 +9,7 @@ import com.kt289.client.sound.*;
 import com.kt289.util.buffer.Buffer;
 import com.kt289.util.*;
 import com.kt289.util.aggregation.*;
-import com.kt289.util.crypto.IsaacRandom;
+import com.kt289.isaac.ISAACRandom;
 
 import java.applet.AppletContext;
 import java.awt.*;
@@ -196,7 +196,7 @@ public class Client extends GameShell {
     private int anInt924;
     private byte aByte925;
     private String aString926;
-    private IsaacRandom aClass46_927;
+    private ISAACRandom aClass46_927;
     private int anInt928;
     private int anInt929;
     private int anInt930;
@@ -8045,11 +8045,11 @@ public class Client extends GameShell {
                 }
                 aClass44_Sub3_Sub2_822
                         .writeBytes(aClass44_Sub3_Sub2_850.payload, aClass44_Sub3_Sub2_850.offset, 0);
-                aClass44_Sub3_Sub2_850.encryptor = new IsaacRandom(ai, (byte) -23);
+                aClass44_Sub3_Sub2_850.encryptor = new ISAACRandom(ai, (byte) -23);
                 for (int i2 = 0; i2 < 4; i2++) {
                     ai[i2] += 50;
                 }
-                aClass46_927 = new IsaacRandom(ai, (byte) -23);
+                aClass46_927 = new ISAACRandom(ai, (byte) -23);
                 aClass7_1099.method195(0, aClass44_Sub3_Sub2_822.payload, 2, aClass44_Sub3_Sub2_822.offset);
                 k = aClass7_1099.method192();
             }

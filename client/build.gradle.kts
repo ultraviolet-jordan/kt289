@@ -1,16 +1,14 @@
 plugins {
-    kotlin("jvm")
+    java
 }
 
 group = "com.kt289"
 version = "1.0"
 
-repositories {
-    mavenCentral()
-}
+repositories { }
 
 dependencies {
-    implementation(kotlin("stdlib"))
     implementation(project(":bzip2"))
+    implementation(project(":isaac"))
     implementation(project(":util"))
 }

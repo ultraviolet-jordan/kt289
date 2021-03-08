@@ -1,23 +1,10 @@
 plugins {
-    kotlin("jvm") version "1.4.31"
+    java
 }
 
 group = "com.kt289"
 version = "1.0"
 
-repositories {
-    mavenCentral()
-}
+repositories { }
 
-dependencies {
-    implementation(kotlin("stdlib-jdk8"))
-}
-
-tasks {
-    compileKotlin {
-        kotlinOptions.jvmTarget = "1.8"
-    }
-    compileTestKotlin {
-        kotlinOptions.jvmTarget = "1.8"
-    }
-}
+dependencies { }

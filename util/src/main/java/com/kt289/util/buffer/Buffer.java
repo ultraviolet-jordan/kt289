@@ -2,7 +2,7 @@ package com.kt289.util.buffer;
 
 import com.kt289.util.aggregation.CacheableNode;
 import com.kt289.util.aggregation.LinkedList;
-import com.kt289.util.crypto.IsaacRandom;
+import com.kt289.isaac.ISAACRandom;
 
 import java.math.BigInteger;
 
@@ -38,7 +38,7 @@ public class Buffer extends CacheableNode {
     public byte[] payload;
     public int offset;
     public int bitOffset;
-    public IsaacRandom encryptor;
+    public ISAACRandom encryptor;
 
     private Buffer() {
     }
