@@ -1,6 +1,6 @@
-package com.kt289.util.crypto;
+package com.kt289.isaac;
 
-public class IsaacRandom {
+public class ISAACRandom {
 
     private int anInt783;
     private int[] anIntArray784;
@@ -9,7 +9,7 @@ public class IsaacRandom {
     private int anInt787;
     private int anInt788;
 
-    public IsaacRandom(int[] ai, byte byte0) {
+    public ISAACRandom(int[] ai, byte byte0) {
         anIntArray785 = new int[256];
         anIntArray784 = new int[256];
         System.arraycopy(ai, 0, anIntArray784, 0, ai.length);
