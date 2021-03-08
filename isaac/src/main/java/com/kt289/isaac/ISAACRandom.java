@@ -2,176 +2,204 @@ package com.kt289.isaac;
 
 public class ISAACRandom {
 
-    private int anInt783;
-    private int[] anIntArray784;
-    private int[] anIntArray785;
-    private int anInt786;
-    private int anInt787;
-    private int anInt788;
+    private final int[] rsl;
+    private final int[] mem;
 
-    public ISAACRandom(int[] ai, byte byte0) {
-        anIntArray785 = new int[256];
-        anIntArray784 = new int[256];
-        System.arraycopy(ai, 0, anIntArray784, 0, ai.length);
-        method547();
+    private int count;
+    private int a;
+    private int b;
+    private int c;
+
+    public ISAACRandom(int[] seed) {
+        mem = new int[256];
+        rsl = new int[256];
+        System.arraycopy(seed, 0, rsl, 0, seed.length);
+        init();
     }
 
-    public int value() {
-        if (anInt783-- == 0) {
-            method546();
-            anInt783 = 255;
+    public int next() {
+        if (count-- == 0) {
+            isaac();
+            count = 255;
         }
-        return anIntArray784[anInt783];
+        return rsl[count];
     }
 
-    private void method546() {
-        anInt787 += ++anInt788;
-        for (int i = 0; i < 256; i++) {
-            int j = anIntArray785[i];
-            switch (i & 3) {
-                case 0: // '\0'
-                    anInt786 ^= anInt786 << 13;
+    private void isaac() {
+        b += ++c;
+        for (int index = 0; index < 256; index++) {
+            int x = mem[index];
+            switch (index & 3) {
+                case 0:
+                    a ^= a << 13;
                     break;
 
-                case 1: // '\001'
-                    anInt786 ^= anInt786 >>> 6;
+                case 1:
+                    a ^= a >>> 6;
                     break;
 
-                case 2: // '\002'
-                    anInt786 ^= anInt786 << 2;
+                case 2:
+                    a ^= a << 2;
                     break;
 
-                case 3: // '\003'
-                    anInt786 ^= anInt786 >>> 16;
+                case 3:
+                    a ^= a >>> 16;
                     break;
             }
-            anInt786 += anIntArray785[i + 128 & 0xff];
-            int k;
-            anIntArray785[i] = k = anIntArray785[(j & 0x3fc) >> 2] + anInt786 + anInt787;
-            anIntArray784[i] = anInt787 = anIntArray785[(k >> 8 & 0x3fc) >> 2] + j;
+            a += mem[index + 128 & 0xff];
+            int y;
+            mem[index] = y = mem[(x & 0x3fc) >> 2] + a + b;
+            rsl[index] = b = mem[(y >> 8 & 0x3fc) >> 2] + x;
         }
     }
 
-    private void method547() {
-        int i1;
-        int j1;
-        int k1;
-        int l1;
-        int i2;
-        int j2;
-        int k2;
-        int l = i1 = j1 = k1 = l1 = i2 = j2 = k2 = 0x9e3779b9;
+    private void init() {
+        final int ratio = 0x9E3779B9;
+        int a = ratio;
+        int b = ratio;
+        int c = ratio;
+        int d = ratio;
+        int e = ratio;
+        int f = ratio;
+        int g = ratio;
+        int h = ratio;
+
         for (int i = 0; i < 4; i++) {
-            l ^= i1 << 11;
-            k1 += l;
-            i1 += j1;
-            i1 ^= j1 >>> 2;
-            l1 += i1;
-            j1 += k1;
-            j1 ^= k1 << 8;
-            i2 += j1;
-            k1 += l1;
-            k1 ^= l1 >>> 16;
-            j2 += k1;
-            l1 += i2;
-            l1 ^= i2 << 10;
-            k2 += l1;
-            i2 += j2;
-            i2 ^= j2 >>> 4;
-            l += i2;
-            j2 += k2;
-            j2 ^= k2 << 8;
-            i1 += j2;
-            k2 += l;
-            k2 ^= l >>> 9;
-            j1 += k2;
-            l += i1;
+            a ^= b << 11;
+            d += a;
+            b += c;
+
+            b ^= c >>> 2;
+            e += b;
+            c += d;
+
+            c ^= d << 8;
+            f += c;
+            d += e;
+
+            d ^= e >>> 16;
+            g += d;
+            e += f;
+
+            e ^= f << 10;
+            h += e;
+            f += g;
+
+            f ^= g >>> 4;
+            a += f;
+            g += h;
+
+            g ^= h << 8;
+            b += g;
+            h += a;
+
+            h ^= a >>> 9;
+            c += h;
+            a += b;
         }
-        for (int j = 0; j < 256; j += 8) {
-            l += anIntArray784[j];
-            i1 += anIntArray784[j + 1];
-            j1 += anIntArray784[j + 2];
-            k1 += anIntArray784[j + 3];
-            l1 += anIntArray784[j + 4];
-            i2 += anIntArray784[j + 5];
-            j2 += anIntArray784[j + 6];
-            k2 += anIntArray784[j + 7];
-            l ^= i1 << 11;
-            k1 += l;
-            i1 += j1;
-            i1 ^= j1 >>> 2;
-            l1 += i1;
-            j1 += k1;
-            j1 ^= k1 << 8;
-            i2 += j1;
-            k1 += l1;
-            k1 ^= l1 >>> 16;
-            j2 += k1;
-            l1 += i2;
-            l1 ^= i2 << 10;
-            k2 += l1;
-            i2 += j2;
-            i2 ^= j2 >>> 4;
-            l += i2;
-            j2 += k2;
-            j2 ^= k2 << 8;
-            i1 += j2;
-            k2 += l;
-            k2 ^= l >>> 9;
-            j1 += k2;
-            l += i1;
-            anIntArray785[j] = l;
-            anIntArray785[j + 1] = i1;
-            anIntArray785[j + 2] = j1;
-            anIntArray785[j + 3] = k1;
-            anIntArray785[j + 4] = l1;
-            anIntArray785[j + 5] = i2;
-            anIntArray785[j + 6] = j2;
-            anIntArray785[j + 7] = k2;
+        for (int index = 0; index < 256; index += 8) {
+            a += rsl[index];
+            b += rsl[index + 1];
+            c += rsl[index + 2];
+            d += rsl[index + 3];
+            e += rsl[index + 4];
+            f += rsl[index + 5];
+            g += rsl[index + 6];
+            h += rsl[index + 7];
+
+            a ^= b << 11;
+            d += a;
+            b += c;
+
+            b ^= c >>> 2;
+            e += b;
+            c += d;
+
+            c ^= d << 8;
+            f += c;
+            d += e;
+
+            d ^= e >>> 16;
+            g += d;
+            e += f;
+
+            e ^= f << 10;
+            h += e;
+            f += g;
+
+            f ^= g >>> 4;
+            a += f;
+            g += h;
+
+            g ^= h << 8;
+            b += g;
+            h += a;
+
+            h ^= a >>> 9;
+            c += h;
+            a += b;
+
+            mem[index] = a;
+            mem[index + 1] = b;
+            mem[index + 2] = c;
+            mem[index + 3] = d;
+            mem[index + 4] = e;
+            mem[index + 5] = f;
+            mem[index + 6] = g;
+            mem[index + 7] = h;
         }
-        for (int k = 0; k < 256; k += 8) {
-            l += anIntArray785[k];
-            i1 += anIntArray785[k + 1];
-            j1 += anIntArray785[k + 2];
-            k1 += anIntArray785[k + 3];
-            l1 += anIntArray785[k + 4];
-            i2 += anIntArray785[k + 5];
-            j2 += anIntArray785[k + 6];
-            k2 += anIntArray785[k + 7];
-            l ^= i1 << 11;
-            k1 += l;
-            i1 += j1;
-            i1 ^= j1 >>> 2;
-            l1 += i1;
-            j1 += k1;
-            j1 ^= k1 << 8;
-            i2 += j1;
-            k1 += l1;
-            k1 ^= l1 >>> 16;
-            j2 += k1;
-            l1 += i2;
-            l1 ^= i2 << 10;
-            k2 += l1;
-            i2 += j2;
-            i2 ^= j2 >>> 4;
-            l += i2;
-            j2 += k2;
-            j2 ^= k2 << 8;
-            i1 += j2;
-            k2 += l;
-            k2 ^= l >>> 9;
-            j1 += k2;
-            l += i1;
-            anIntArray785[k] = l;
-            anIntArray785[k + 1] = i1;
-            anIntArray785[k + 2] = j1;
-            anIntArray785[k + 3] = k1;
-            anIntArray785[k + 4] = l1;
-            anIntArray785[k + 5] = i2;
-            anIntArray785[k + 6] = j2;
-            anIntArray785[k + 7] = k2;
+        for (int index = 0; index < 256; index += 8) {
+            a += mem[index];
+            b += mem[index + 1];
+            c += mem[index + 2];
+            d += mem[index + 3];
+            e += mem[index + 4];
+            f += mem[index + 5];
+            g += mem[index + 6];
+            h += mem[index + 7];
+
+            a ^= b << 11;
+            d += a;
+            b += c;
+
+            b ^= c >>> 2;
+            e += b;
+            c += d;
+
+            c ^= d << 8;
+            f += c;
+            d += e;
+
+            d ^= e >>> 16;
+            g += d;
+            e += f;
+
+            e ^= f << 10;
+            h += e;
+            f += g;
+
+            f ^= g >>> 4;
+            a += f;
+            g += h;
+
+            g ^= h << 8;
+            b += g;
+            h += a;
+
+            h ^= a >>> 9;
+            c += h;
+            a += b;
+
+            mem[index] = a;
+            mem[index + 1] = b;
+            mem[index + 2] = c;
+            mem[index + 3] = d;
+            mem[index + 4] = e;
+            mem[index + 5] = f;
+            mem[index + 6] = g;
+            mem[index + 7] = h;
         }
-        method546();
-        anInt783 = 256;
+        isaac();
+        count = 256;
     }
 }

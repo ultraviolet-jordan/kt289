@@ -80,7 +80,7 @@ public class Buffer extends CacheableNode {
     }
 
     public void writePacket(int value) {
-        payload[offset++] = (byte) (value + encryptor.value());
+        payload[offset++] = (byte) (value + encryptor.next());
     }
 
     public void writeByte(int value) {

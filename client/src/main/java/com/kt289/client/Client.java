@@ -1379,7 +1379,7 @@ public class Client extends GameShell {
     private void method24(byte byte0) {
         try {
             if (byte0 != -128) {
-                anInt1247 = aClass46_927.value();
+                anInt1247 = aClass46_927.next();
             }
             anInt1245 = 0;
             int i = (Client.localPlayer.anInt1615 >> 7) + anInt1184;
@@ -1470,7 +1470,7 @@ public class Client extends GameShell {
             }
             int k = anIntArray839[i];
             if (j >= 0) {
-                anInt1242 = aClass46_927.value();
+                anInt1242 = aClass46_927.next();
             }
             if (k >= 2000) {
                 k -= 2000;
@@ -1872,7 +1872,7 @@ public class Client extends GameShell {
                     aClass7_1099.method194(aClass44_Sub3_Sub2_1132.payload, 0, 1);
                     anInt1170 = aClass44_Sub3_Sub2_1132.payload[0] & 0xff;
                     if (aClass46_927 != null) {
-                        anInt1170 = anInt1170 - aClass46_927.value() & 0xff;
+                        anInt1170 = anInt1170 - aClass46_927.next() & 0xff;
                     }
                     anInt1169 = PacketConstants.PACKET_SIZES[anInt1170];
                     i--;
@@ -3935,7 +3935,7 @@ public class Client extends GameShell {
             aClass34_1197.method272((byte) 5);
             anInt826 = 0;
             if (byte0 != -89) {
-                Client.anInt1029 = aClass46_927.value();
+                Client.anInt1029 = aClass46_927.next();
             }
             for (int k2 = 0; k2 < 104; k2++) {
                 for (int l2 = 0; l2 < 104; l2++) {
@@ -3989,7 +3989,7 @@ public class Client extends GameShell {
     private void method41(int i, Widget class5) {
         try {
             if (i >= 0) {
-                anInt1152 = aClass46_927.value();
+                anInt1152 = aClass46_927.next();
             }
             int j = class5.anInt109;
             if (j >= 1 && j <= 100 || j >= 701 && j <= 800) {
@@ -6912,7 +6912,7 @@ public class Client extends GameShell {
     private void method74(int i, Actor class44_sub3_sub4_sub6, int j) {
         try {
             if (j != 0) {
-                anInt964 = aClass46_927.value();
+                anInt964 = aClass46_927.next();
             }
             method75(class44_sub3_sub4_sub6.anInt1615, i, (byte) -79, class44_sub3_sub4_sub6.anInt1616);
             return;
@@ -6968,7 +6968,7 @@ public class Client extends GameShell {
             GameObjectDefinition.aClass39_251.clear();
             GameObjectDefinition.aClass39_252.clear();
             if (byte0 != -71) {
-                anInt1056 = aClass46_927.value();
+                anInt1056 = aClass46_927.next();
             }
             ActorDefinition.modelCache.clear();
             ItemDefinition.aClass39_369.clear();
@@ -8045,11 +8045,11 @@ public class Client extends GameShell {
                 }
                 aClass44_Sub3_Sub2_822
                         .writeBytes(aClass44_Sub3_Sub2_850.payload, aClass44_Sub3_Sub2_850.offset, 0);
-                aClass44_Sub3_Sub2_850.encryptor = new ISAACRandom(ai, (byte) -23);
+                aClass44_Sub3_Sub2_850.encryptor = new ISAACRandom(ai);
                 for (int i2 = 0; i2 < 4; i2++) {
                     ai[i2] += 50;
                 }
-                aClass46_927 = new ISAACRandom(ai, (byte) -23);
+                aClass46_927 = new ISAACRandom(ai);
                 aClass7_1099.method195(0, aClass44_Sub3_Sub2_822.payload, 2, aClass44_Sub3_Sub2_822.offset);
                 k = aClass7_1099.method192();
             }
@@ -9064,7 +9064,7 @@ public class Client extends GameShell {
                 break;
             }
             if (j != 705) {
-                anInt857 = aClass46_927.value();
+                anInt857 = aClass46_927.next();
             }
         } catch (RuntimeException runtimeexception) {
             SignLink.error("20699, " + i + ", " + j + ", " + class44_sub3_sub4_sub6_sub1 + ", " + k + ", " + l
