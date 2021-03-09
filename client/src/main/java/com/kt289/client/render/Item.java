@@ -1,7 +1,6 @@
 package com.kt289.client.render;
 
 import com.kt289.client.cache.definition.ItemDefinition;
-import com.kt289.client.graphic.Model;
 import com.kt289.util.SignLink;
 
 public class Item extends Renderable {

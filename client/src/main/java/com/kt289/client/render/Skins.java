@@ -1,4 +1,4 @@
-package com.kt289.client.graphic;
+package com.kt289.client.render;
 
 import com.kt289.util.buffer.Buffer;
 import com.kt289.util.SignLink;

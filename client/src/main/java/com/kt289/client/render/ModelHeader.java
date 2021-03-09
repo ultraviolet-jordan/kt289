@@ -1,4 +1,4 @@
-package com.kt289.client.graphic;
+package com.kt289.client.render;
 
 class ModelHeader {
 

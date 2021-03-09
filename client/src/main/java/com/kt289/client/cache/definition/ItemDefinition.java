@@ -1,9 +1,9 @@
 package com.kt289.client.cache.definition;
 
 import com.kt289.util.buffer.Buffer;
-import com.kt289.client.cache.Archive;
+import com.kt289.cache.Archive;
 import com.kt289.client.graphic.ImageRGB;
-import com.kt289.client.graphic.Model;
+import com.kt289.client.render.Model;
 import com.kt289.client.graphic.Rasterizer;
 import com.kt289.client.graphic.Rasterizer3D;
 import com.kt289.util.SignLink;

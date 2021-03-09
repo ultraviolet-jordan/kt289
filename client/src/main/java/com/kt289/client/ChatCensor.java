@@ -1,6 +1,6 @@
 package com.kt289.client;
 
-import com.kt289.client.cache.Archive;
+import com.kt289.cache.Archive;
 import com.kt289.util.SignLink;
 import com.kt289.util.buffer.Buffer;
 

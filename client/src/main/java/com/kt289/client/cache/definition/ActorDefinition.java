@@ -1,13 +1,13 @@
 package com.kt289.client.cache.definition;
 
+import com.kt289.cache.Archive;
+import com.kt289.client.render.Animation;
 import com.kt289.util.buffer.Buffer;
-import com.kt289.client.cache.Archive;
-import com.kt289.client.graphic.Model;
+import com.kt289.client.render.Model;
 import com.kt289.util.aggregation.Cache;
 
 public class ActorDefinition {
 
-    private static int size;
     private static int[] bufferOffsets;
     private static Buffer buffer;
     private static ActorDefinition[] cache;
@@ -55,39 +55,39 @@ public class ActorDefinition {
     }
 
     public static void load(Archive archive) {
-        ActorDefinition.buffer = new Buffer(archive.decompressFile("npc.dat"));
+        buffer = new Buffer(archive.decompressFile("npc.dat"));
         Buffer buffer = new Buffer(archive.decompressFile("npc.idx"));
-        ActorDefinition.size = buffer.readUnsignedShort();
-        ActorDefinition.bufferOffsets = new int[ActorDefinition.size];
+        int size = buffer.readUnsignedShort();
+        bufferOffsets = new int[size];
         int offset = 2;
-        for (int index = 0; index < ActorDefinition.size; index++) {
-            ActorDefinition.bufferOffsets[index] = offset;
+        for (int index = 0; index < size; index++) {
+            bufferOffsets[index] = offset;
             offset += buffer.readUnsignedShort();
         }
-        ActorDefinition.cache = new ActorDefinition[20];
+        cache = new ActorDefinition[20];
         for (int index = 0; index < 20; index++) {
-            ActorDefinition.cache[index] = new ActorDefinition();
+            cache[index] = new ActorDefinition();
         }
     }
 
     public static void nullLoader() {
-            ActorDefinition.modelCache = null;
-            ActorDefinition.bufferOffsets = null;
-            ActorDefinition.cache = null;
-            ActorDefinition.buffer = null;
+            modelCache = null;
+            bufferOffsets = null;
+            cache = null;
+            buffer = null;
     }
 
     public static ActorDefinition getDefinition(int id) {
         for (int index = 0; index < 20; index++) {
-            if (ActorDefinition.cache[index].id == id) {
-                return ActorDefinition.cache[index];
+            if (cache[index].id == id) {
+                return cache[index];
             }
         }
-        ActorDefinition.bufferIndex = (ActorDefinition.bufferIndex + 1) % 20;
-        ActorDefinition definition = ActorDefinition.cache[ActorDefinition.bufferIndex] = new ActorDefinition();
-        ActorDefinition.buffer.offset = ActorDefinition.bufferOffsets[id];
+        bufferIndex = (bufferIndex + 1) % 20;
+        ActorDefinition definition = cache[bufferIndex] = new ActorDefinition();
+        buffer.offset = bufferOffsets[id];
         definition.id = id;
-        definition.read(ActorDefinition.buffer);
+        definition.read(buffer);
         return definition;
     }
 
@@ -169,7 +169,7 @@ public class ActorDefinition {
     }
 
     public Model getChildModel(int frameId2, int frameId1, int[] frameId3) {
-        Model model = (Model) ActorDefinition.modelCache.get(id);
+        Model model = (Model) modelCache.get(id);
         if (model == null) {
             boolean notCached = false;
             for (int i : modelIds) {
@@ -197,7 +197,7 @@ public class ActorDefinition {
                 }
                 model.createBones();
                 model.applyLighting(64 + brightness, 850 + contrast, -30, -50, -30, true);
-                ActorDefinition.modelCache.put(id, model);
+                modelCache.put(id, model);
             }
         }
         Model childModel = Model.aClass44_Sub3_Sub4_Sub4_1530;

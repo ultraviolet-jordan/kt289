@@ -1,7 +1,5 @@
 package com.kt289.client.render;
 
-import com.kt289.client.graphic.Model;
-import com.kt289.client.graphic.VertexNormal;
 import com.kt289.util.SignLink;
 import com.kt289.util.aggregation.CacheableNode;
 

@@ -1,7 +1,8 @@
 package com.kt289.client.cache.definition;
 
+import com.kt289.client.render.Animation;
 import com.kt289.util.buffer.Buffer;
-import com.kt289.client.cache.Archive;
+import com.kt289.cache.Archive;
 import com.kt289.util.SignLink;
 
 public class AnimationSequence {

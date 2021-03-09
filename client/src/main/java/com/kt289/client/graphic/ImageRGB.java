@@ -1,7 +1,7 @@
 package com.kt289.client.graphic;
 
 import com.kt289.util.buffer.Buffer;
-import com.kt289.client.cache.Archive;
+import com.kt289.cache.Archive;
 import com.kt289.util.SignLink;
 
 import java.awt.*;

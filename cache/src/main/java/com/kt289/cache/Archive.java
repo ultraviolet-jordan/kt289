@@ -1,4 +1,4 @@
-package com.kt289.client.cache;
+package com.kt289.cache;
 
 import com.kt289.bzip2.Bzip2Decompressor;
 import com.kt289.util.buffer.Buffer;
@@ -58,9 +58,8 @@ public class Archive {
                 if (!decompressed) {
                     Bzip2Decompressor.decompress(output, decompressedSizes[file], outputData, compressedSizes[file], initialOffsets[file]);
                 } else {
-                    for (int l = 0; l < decompressedSizes[file]; l++) {
-                        output[l] = outputData[initialOffsets[file] + l];
-                    }
+                    if (decompressedSizes[file] >= 0)
+                        System.arraycopy(outputData, initialOffsets[file], output, 0, decompressedSizes[file]);
                 }
                 return output;
             }

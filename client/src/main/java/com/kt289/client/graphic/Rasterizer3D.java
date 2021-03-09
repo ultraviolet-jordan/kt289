@@ -1,6 +1,6 @@
 package com.kt289.client.graphic;
 
-import com.kt289.client.cache.Archive;
+import com.kt289.cache.Archive;
 import com.kt289.util.SignLink;
 
 public class Rasterizer3D extends Rasterizer {

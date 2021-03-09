@@ -1,9 +1,8 @@
-package com.kt289.client.graphic;
+package com.kt289.client.render;
 
+import com.kt289.client.graphic.*;
 import com.kt289.util.buffer.Buffer;
-import com.kt289.client.cache.Requester;
-import com.kt289.client.cache.definition.Animation;
-import com.kt289.client.render.Renderable;
+import com.kt289.client.ondemand.Requester;
 
 public class Model extends Renderable {
 

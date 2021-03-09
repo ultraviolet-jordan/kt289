@@ -1,5 +1,6 @@
-package com.kt289.client.cache;
+package com.kt289.client.ondemand;
 
+import com.kt289.cache.Archive;
 import com.kt289.util.buffer.Buffer;
 import com.kt289.client.Client;
 import com.kt289.util.SignLink;
@@ -257,8 +258,8 @@ public class OnDemandRequester extends Requester implements Runnable {
             throw new RuntimeException("error unzipping");
         }
         onDemandNode.buffer = new byte[offset];
-        for (int index = 0; index < offset; index++) {
-            onDemandNode.buffer[index] = aByteArray1318[index];
+        if (offset >= 0) {
+            System.arraycopy(aByteArray1318, 0, onDemandNode.buffer, 0, offset);
         }
         return onDemandNode;
     }
@@ -320,7 +321,7 @@ public class OnDemandRequester extends Requester implements Runnable {
                 }
                 try {
                     Thread.sleep(delay);
-                } catch (Exception exception) {
+                } catch (Exception ignored) {
                 }
                 waiting = true;
                 for (int j = 0; j < 100; j++) {
@@ -329,11 +330,11 @@ public class OnDemandRequester extends Requester implements Runnable {
                     }
                     waiting = false;
                     checkReceived();
-                    handleFailed((byte) -3);
+                    handleFailed();
                     if (uncompletedCount == 0 && j >= 5) {
                         break;
                     }
-                    loadExtra(0);
+                    loadExtra();
                     if (inputStream != null) {
                         read();
                     }
@@ -345,7 +346,7 @@ public class OnDemandRequester extends Requester implements Runnable {
                         onDemandNode.loopCycle++;
                         if (onDemandNode.loopCycle > 50) {
                             onDemandNode.loopCycle = 0;
-                            closeRequest(onDemandNode, 409);
+                            closeRequest(onDemandNode);
                         }
                     }
                 }
@@ -355,7 +356,7 @@ public class OnDemandRequester extends Requester implements Runnable {
                         onDemandNode.loopCycle++;
                         if (onDemandNode.loopCycle > 50) {
                             onDemandNode.loopCycle = 0;
-                            closeRequest(onDemandNode, 409);
+                            closeRequest(onDemandNode);
                         }
                     }
                 }
@@ -364,7 +365,7 @@ public class OnDemandRequester extends Requester implements Runnable {
                     if (loopCycle > 750) {
                         try {
                             socket.close();
-                        } catch (Exception exception) {
+                        } catch (Exception ignored) {
                         }
                         socket = null;
                         inputStream = null;
@@ -424,7 +425,7 @@ public class OnDemandRequester extends Requester implements Runnable {
         }
     }
 
-    private void handleFailed(byte byte0) {
+    private void handleFailed() {
         uncompletedCount = 0;
         completedCount = 0;
         for (OnDemandNode onDemandNode = (OnDemandNode) requested.peekFront(); onDemandNode != null; onDemandNode = (OnDemandNode) requested.getNext()) {
@@ -445,12 +446,12 @@ public class OnDemandRequester extends Requester implements Runnable {
             filePriorities[onDemandNode.dataType][onDemandNode.index] = 0;
             requested.pushBack(onDemandNode);
             uncompletedCount++;
-            closeRequest(onDemandNode, 409);
+            closeRequest(onDemandNode);
             waiting = true;
         }
     }
 
-    private void loadExtra(int i) {
+    private void loadExtra() {
         uncomplete:
         while (true) {
             while (true) {
@@ -471,7 +472,7 @@ public class OnDemandRequester extends Requester implements Runnable {
                     if (filePriorities[onDemandNode.dataType][onDemandNode.index] != 0) {
                         filePriorities[onDemandNode.dataType][onDemandNode.index] = (byte) 0;
                         requested.pushBack(onDemandNode);
-                        closeRequest(onDemandNode, 409);
+                        closeRequest(onDemandNode);
                         waiting = true;
                         if (filesLoaded < totalFiles) {
                             filesLoaded++;
@@ -497,7 +498,7 @@ public class OnDemandRequester extends Requester implements Runnable {
                             onDemandNode.index = index;
                             onDemandNode.incomplete = false;
                             requested.pushBack(onDemandNode);
-                            closeRequest(onDemandNode, 409);
+                            closeRequest(onDemandNode);
                             waiting = true;
                             if (filesLoaded < totalFiles) {
                                 filesLoaded++;
@@ -521,7 +522,9 @@ public class OnDemandRequester extends Requester implements Runnable {
             int available = inputStream.available();
             if (expectedSize == 0 && available >= 6) {
                 waiting = true;
-                for (int offset = 0; offset < 6; offset += inputStream.read(payload, offset, 6 - offset)) {
+                int offset = 0;
+                while (offset < 6) {
+                    offset += inputStream.read(payload, offset, 6 - offset);
                 }
                 int dataType = payload[0] & 0xff;
                 int index = ((payload[1] & 0xff) << 8) + (payload[2] & 0xff);
@@ -554,7 +557,7 @@ public class OnDemandRequester extends Requester implements Runnable {
                         if (current.buffer == null && header == 0) {
                             current.buffer = new byte[r];
                         }
-                        if (current.buffer == null && header != 0) {
+                        if (current.buffer == null) {
                             throw new IOException("missing start of file");
                         }
                     }
@@ -573,7 +576,9 @@ public class OnDemandRequester extends Requester implements Runnable {
                     payload = current.buffer;
                     size = completedSize;
                 }
-                for (int offset = 0; offset < expectedSize; offset += inputStream.read(payload, offset + size, expectedSize - offset)) {
+                int offset = 0;
+                while (offset < expectedSize) {
+                    offset += inputStream.read(payload, offset + size, expectedSize - offset);
                 }
                 if (expectedSize + completedSize >= payload.length && current != null) {
                     if (clientInstance.caches[0] != null) {
@@ -596,7 +601,7 @@ public class OnDemandRequester extends Requester implements Runnable {
         } catch (IOException ioexception) {
             try {
                 socket.close();
-            } catch (Exception exception) {
+            } catch (Exception ignored) {
             }
             socket = null;
             inputStream = null;
@@ -620,7 +625,7 @@ public class OnDemandRequester extends Requester implements Runnable {
         return checksum == cacheChecksum;
     }
 
-    private void closeRequest(OnDemandNode request, int i) {
+    private void closeRequest(OnDemandNode request) {
         try {
             if (socket == null) {
                 long currentTime = System.currentTimeMillis();
@@ -651,11 +656,11 @@ public class OnDemandRequester extends Requester implements Runnable {
             writeLoopCycle = 0;
             failedRequests = -10000;
             return;
-        } catch (IOException ioexception) {
+        } catch (IOException ignored) {
         }
         try {
             socket.close();
-        } catch (Exception exception) {
+        } catch (Exception ignored) {
         }
         socket = null;
         inputStream = null;

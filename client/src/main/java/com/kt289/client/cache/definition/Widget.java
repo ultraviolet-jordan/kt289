@@ -1,10 +1,11 @@
-package com.kt289.client.graphic;
+package com.kt289.client.cache.definition;
 
+import com.kt289.client.graphic.ImageRGB;
+import com.kt289.client.graphic.TypeFace;
+import com.kt289.client.render.Animation;
+import com.kt289.client.render.Model;
 import com.kt289.util.buffer.Buffer;
-import com.kt289.client.cache.Archive;
-import com.kt289.client.cache.definition.ActorDefinition;
-import com.kt289.client.cache.definition.Animation;
-import com.kt289.client.cache.definition.ItemDefinition;
+import com.kt289.cache.Archive;
 import com.kt289.client.Client;
 import com.kt289.util.SignLink;
 import com.kt289.util.TextUtils;

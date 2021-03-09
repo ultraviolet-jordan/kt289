@@ -1,18 +1,12 @@
 package com.kt289.client.scene;
 
-import com.kt289.client.cache.OnDemandRequester;
+import com.kt289.client.ondemand.OnDemandRequester;
 import com.kt289.client.cache.definition.FloorDefinition;
 import com.kt289.client.cache.definition.GameObjectDefinition;
 import com.kt289.client.render.GameObject;
 import com.kt289.util.buffer.Buffer;
-import com.kt289.client.graphic.Model;
-import com.kt289.client.graphic.Rasterizer;
+import com.kt289.client.render.Model;
 import com.kt289.client.graphic.Rasterizer3D;
-import com.kt289.client.graphic.Model;
-import com.kt289.client.graphic.Rasterizer;
-import com.kt289.client.graphic.Rasterizer3D;
-import com.kt289.client.graphic.VertexNormal;
-import com.kt289.client.render.Renderable;
 import com.kt289.client.render.Renderable;
 import com.kt289.util.SignLink;
 

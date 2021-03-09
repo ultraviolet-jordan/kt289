@@ -1,8 +1,11 @@
 package com.kt289.client;
 
-import com.kt289.client.cache.*;
+import com.kt289.cache.Index;
+import com.kt289.cache.Archive;
 import com.kt289.client.cache.definition.*;
 import com.kt289.client.graphic.*;
+import com.kt289.client.ondemand.OnDemandNode;
+import com.kt289.client.ondemand.OnDemandRequester;
 import com.kt289.client.render.*;
 import com.kt289.client.scene.*;
 import com.kt289.client.sound.*;
