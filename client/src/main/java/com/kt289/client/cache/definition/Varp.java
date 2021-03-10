@@ -83,7 +83,7 @@ public class Varp {
                 } else if (k == 6) {
                     aBoolean683 = true;
                 } else if (k == 7) {
-                    int anInt684 = class44_sub3_sub2.readUnsignedInt();
+                    int anInt684 = class44_sub3_sub2.readInt();
                 } else if (k == 8) {
                     anInt685 = 1;
                     aBoolean686 = true;
@@ -92,7 +92,7 @@ public class Varp {
                 } else if (k == 11) {
                     aBoolean686 = true;
                 } else if (k == 12) {
-                    anInt687 = class44_sub3_sub2.readUnsignedInt();
+                    anInt687 = class44_sub3_sub2.readInt();
                 } else if (k == 13) {
                     anInt685 = 2;
                 } else {

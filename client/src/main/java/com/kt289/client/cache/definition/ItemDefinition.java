@@ -329,7 +329,7 @@ public class ItemDefinition {
                 } else if (i == 2) {
                     aString331 = class44_sub3_sub2.readString();
                 } else if (i == 3) {
-                    aByteArray332 = class44_sub3_sub2.readBytes();
+                    aByteArray332 = class44_sub3_sub2.readStringRaw();
                 } else if (i == 4) {
                     anInt335 = class44_sub3_sub2.readUnsignedShort();
                 } else if (i == 5) {
@@ -351,7 +351,7 @@ public class ItemDefinition {
                 } else if (i == 11) {
                     aBoolean342 = true;
                 } else if (i == 12) {
-                    anInt343 = class44_sub3_sub2.readUnsignedInt();
+                    anInt343 = class44_sub3_sub2.readInt();
                 } else if (i == 16) {
                     aBoolean344 = true;
                 } else if (i == 23) {

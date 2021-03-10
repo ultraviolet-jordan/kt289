@@ -38,7 +38,7 @@ public class Archive {
         initialOffsets = new int[fileCount];
         int offset = buffer.offset + fileCount * 10;
         for (int index = 0; index < fileCount; index++) {
-            hashes[index] = buffer.readUnsignedInt();
+            hashes[index] = buffer.readInt();
             decompressedSizes[index] = buffer.readUnsignedTriByte();
             compressedSizes[index] = buffer.readUnsignedTriByte();
             initialOffsets[index] = offset;

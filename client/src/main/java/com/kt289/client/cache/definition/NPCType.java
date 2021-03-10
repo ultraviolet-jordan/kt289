@@ -6,11 +6,11 @@ import com.kt289.util.buffer.Buffer;
 import com.kt289.client.render.Model;
 import com.kt289.util.aggregation.Cache;
 
-public class ActorDefinition {
+public class NPCType {
 
     private static int[] bufferOffsets;
     private static Buffer buffer;
-    private static ActorDefinition[] cache;
+    private static NPCType[] cache;
     private static int bufferIndex;
     public static Cache modelCache = new Cache(30);
     public long id;
@@ -37,7 +37,7 @@ public class ActorDefinition {
     public int headIcon;
     public int degreesToTurn;
 
-    private ActorDefinition() {
+    private NPCType() {
         id = -1L;
         boundaryDimension = 1;
         standAnimationId = -1;
@@ -64,9 +64,9 @@ public class ActorDefinition {
             bufferOffsets[index] = offset;
             offset += buffer.readUnsignedShort();
         }
-        cache = new ActorDefinition[20];
+        cache = new NPCType[20];
         for (int index = 0; index < 20; index++) {
-            cache[index] = new ActorDefinition();
+            cache[index] = new NPCType();
         }
     }
 
@@ -77,14 +77,14 @@ public class ActorDefinition {
             buffer = null;
     }
 
-    public static ActorDefinition getDefinition(int id) {
+    public static NPCType getDefinition(int id) {
         for (int index = 0; index < 20; index++) {
             if (cache[index].id == id) {
                 return cache[index];
             }
         }
         bufferIndex = (bufferIndex + 1) % 20;
-        ActorDefinition definition = cache[bufferIndex] = new ActorDefinition();
+        NPCType definition = cache[bufferIndex] = new NPCType();
         buffer.offset = bufferOffsets[id];
         definition.id = id;
         definition.read(buffer);
@@ -106,7 +106,7 @@ public class ActorDefinition {
             } else if (opcode == 2) {
                 name = buffer.readString();
             } else if (opcode == 3) {
-                description = buffer.readBytes();
+                description = buffer.readStringRaw();
             } else if (opcode == 12) {
                 boundaryDimension = buffer.readByte();
             } else if (opcode == 13) {

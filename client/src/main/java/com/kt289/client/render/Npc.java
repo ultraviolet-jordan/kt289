@@ -1,6 +1,6 @@
 package com.kt289.client.render;
 
-import com.kt289.client.cache.definition.ActorDefinition;
+import com.kt289.client.cache.definition.NPCType;
 import com.kt289.client.cache.definition.AnimationSequence;
 import com.kt289.client.cache.definition.SpotAnimation;
 import com.kt289.util.SignLink;
@@ -10,7 +10,7 @@ public class Npc extends Actor {
     private int anInt1697;
     private int anInt1698;
     private boolean aBoolean1699;
-    public ActorDefinition definition;
+    public NPCType definition;
 
     public Npc() {
         anInt1698 = 8;

@@ -94,7 +94,7 @@ public class OnDemandRequester extends Requester implements Runnable {
             Buffer buffer = new Buffer(decompressed);
             this.crcs[index] = new int[length];
             for (int part = 0; part < length; part++) {
-                this.crcs[index][part] = buffer.readUnsignedInt();
+                this.crcs[index][part] = buffer.readInt();
             }
         }
         byte[] indices = loader.decompressFile("model_index");

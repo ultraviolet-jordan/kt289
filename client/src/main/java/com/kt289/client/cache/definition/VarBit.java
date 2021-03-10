@@ -65,9 +65,9 @@ public class VarBit {
                 } else if (k == 2) {
                     aBoolean595 = true;
                 } else if (k == 3) {
-                    anInt596 = class44_sub3_sub2.readUnsignedInt();
+                    anInt596 = class44_sub3_sub2.readInt();
                 } else if (k == 4) {
-                    int anInt597 = class44_sub3_sub2.readUnsignedInt();
+                    int anInt597 = class44_sub3_sub2.readInt();
                 } else {
                     System.out.println("Error unrecognised config code: " + k);
                 }

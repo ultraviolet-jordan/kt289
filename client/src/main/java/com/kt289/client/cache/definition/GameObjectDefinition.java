@@ -179,7 +179,7 @@ public class GameObjectDefinition {
                     } else if (j == 2) {
                         aString218 = class44_sub3_sub2.readString();
                     } else if (j == 3) {
-                        aByteArray219 = class44_sub3_sub2.readBytes();
+                        aByteArray219 = class44_sub3_sub2.readStringRaw();
                     } else if (j == 5) {
                         int l = class44_sub3_sub2.readUnsignedByte();
                         if (l > 0) {

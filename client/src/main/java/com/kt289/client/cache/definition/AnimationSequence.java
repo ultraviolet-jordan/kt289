@@ -134,7 +134,7 @@ public class AnimationSequence {
                 } else if (i == 11) {
                     replayMode = class44_sub3_sub2.readUnsignedByte();
                 } else if (i == 12) {
-                    int anInt523 = class44_sub3_sub2.readUnsignedInt();
+                    int anInt523 = class44_sub3_sub2.readInt();
                 } else {
                     System.out.println("Error unrecognised seq config code: " + i);
                 }
