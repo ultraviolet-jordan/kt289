@@ -18,23 +18,23 @@ public class ChatDecompression {
             int code = hash >> 4 & 0xf;
             if (value == -1) {
                 if (code < 13) {
-                    characters[count++] = ValidCharacters.VALID[code];
+                    characters[count++] = PermittedCharacters.PERMITTED[code];
                 } else {
                     value = code;
                 }
             } else {
-                characters[count++] = ValidCharacters.VALID[((value << 4) + code) - 195];
+                characters[count++] = PermittedCharacters.PERMITTED[((value << 4) + code) - 195];
                 value = -1;
             }
             code = hash & 0xf;
             if (value == -1) {
                 if (code < 13) {
-                    characters[count++] = ValidCharacters.VALID[code];
+                    characters[count++] = PermittedCharacters.PERMITTED[code];
                 } else {
                     value = code;
                 }
             } else {
-                characters[count++] = ValidCharacters.VALID[((value << 4) + code) - 195];
+                characters[count++] = PermittedCharacters.PERMITTED[((value << 4) + code) - 195];
                 value = -1;
             }
         }

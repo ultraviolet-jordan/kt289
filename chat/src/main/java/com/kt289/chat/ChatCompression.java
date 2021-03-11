@@ -14,8 +14,8 @@ public class ChatCompression {
         int value = -1;
         for (int index = 0; index < string.length(); index++) {
             char character = string.charAt(index);
-            int code = IntStream.range(0, ValidCharacters.VALID.length)
-                    .filter(validIndex -> character == ValidCharacters.VALID[validIndex])
+            int code = IntStream.range(0, PermittedCharacters.PERMITTED.length)
+                    .filter(validIndex -> character == PermittedCharacters.PERMITTED[validIndex])
                     .findFirst()
                     .orElse(0);
             if (code > 12) {

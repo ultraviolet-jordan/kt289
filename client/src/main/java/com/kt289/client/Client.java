@@ -4,6 +4,7 @@ import com.kt289.cache.Index;
 import com.kt289.cache.Archive;
 import com.kt289.chat.ChatCompression;
 import com.kt289.chat.ChatDecompression;
+import com.kt289.chat.Sanitizer;
 import com.kt289.client.cache.definition.*;
 import com.kt289.client.graphic.*;
 import com.kt289.client.ondemand.OnDemandNode;
@@ -2257,7 +2258,7 @@ public class Client extends GameShell {
                             anIntArray1016[anInt928] = i16;
                             anInt928 = (anInt928 + 1) % 100;
                             String s8 = ChatDecompression.decompress(aClass44_Sub3_Sub2_1132, anInt1169 - 13);
-                            s8 = ChatCensor.method352(s8, anInt1242);
+                            s8 = Sanitizer.cleanse(s8);
                             if (i19 == 2 || i19 == 3) {
                                 method17(7, (byte) -115, s8,
                                         "@cr2@" + TextUtils.method554(TextUtils.method551(l3, true), true));
@@ -3330,7 +3331,7 @@ public class Client extends GameShell {
                 ai[i8] = l8 * i9 >> 16;
             }
             Scene.method314(ai, 500, 334, 3, 800, 512);
-            ChatCensor.method342(class47_4);
+            Sanitizer.load(class47_4);
             aClass10_866 = new MouseCapturer(228, this);
             startRunnable(aClass10_866, 10);
             GameObject.aClient1481 = this;
@@ -4650,7 +4651,7 @@ public class Client extends GameShell {
                     if (!flag && anInt1245 == 0) {
                         try {
                             String s = ChatDecompression.decompress(class44_sub3_sub2, k3);
-                            s = ChatCensor.method352(s, anInt1242);
+                            s = Sanitizer.cleanse(s);
                             class44_sub3_sub4_sub6_sub1.overheadTextMessage = s;
                             class44_sub3_sub4_sub6_sub1.anInt1629 = k1 >> 8;
                             class44_sub3_sub4_sub6_sub1.anInt1630 = k1 & 0xff;
@@ -10621,7 +10622,7 @@ public class Client extends GameShell {
                             ChatCompression.compress(aString1007, aClass44_Sub3_Sub2_850);
                             aClass44_Sub3_Sub2_850.writeSizeByte(aClass44_Sub3_Sub2_850.offset - k);
                             aString1007 = ChatDecompression.decompressFromCompression(aString1007);
-                            aString1007 = ChatCensor.method352(aString1007, anInt1242);
+                            aString1007 = Sanitizer.cleanse(aString1007);
                             method17(6, (byte) -115, aString1007,
                                     TextUtils.method554(TextUtils.method551(aLong967, true), true));
                             if (anInt895 == 2) {
@@ -10757,7 +10758,7 @@ public class Client extends GameShell {
                             ChatCompression.compress(aString1141, aClass44_Sub3_Sub2_850);
                             aClass44_Sub3_Sub2_850.writeSizeByte(aClass44_Sub3_Sub2_850.offset - j2);
                             aString1141 = ChatDecompression.decompressFromCompression(aString1141);
-                            aString1141 = ChatCensor.method352(aString1141, anInt1242);
+                            aString1141 = Sanitizer.cleanse(aString1141);
                             Client.localPlayer.overheadTextMessage = aString1141;
                             Client.localPlayer.anInt1629 = k1;
                             Client.localPlayer.anInt1630 = i2;

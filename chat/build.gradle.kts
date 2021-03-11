@@ -8,5 +8,6 @@ version = "1.0"
 repositories { }
 
 dependencies {
+    implementation(project(":cache"))
     implementation(project(":util"))
 }
