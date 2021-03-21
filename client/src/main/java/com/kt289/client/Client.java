@@ -1,8 +1,14 @@
 package com.kt289.client;
 
-import com.kt289.client.cache.*;
+import com.kt289.cache.Index;
+import com.kt289.cache.Archive;
+import com.kt289.chat.ChatCompression;
+import com.kt289.chat.ChatDecompression;
+import com.kt289.chat.Sanitizer;
 import com.kt289.client.cache.definition.*;
 import com.kt289.client.graphic.*;
+import com.kt289.client.ondemand.OnDemandNode;
+import com.kt289.client.ondemand.OnDemandRequester;
 import com.kt289.client.render.*;
 import com.kt289.client.scene.*;
 import com.kt289.client.sound.*;
@@ -1379,7 +1385,7 @@ public class Client extends GameShell {
     private void method24(byte byte0) {
         try {
             if (byte0 != -128) {
-                anInt1247 = aClass46_927.value();
+                anInt1247 = aClass46_927.next();
             }
             anInt1245 = 0;
             int i = (Client.localPlayer.anInt1615 >> 7) + anInt1184;
@@ -1470,7 +1476,7 @@ public class Client extends GameShell {
             }
             int k = anIntArray839[i];
             if (j >= 0) {
-                anInt1242 = aClass46_927.value();
+                anInt1242 = aClass46_927.next();
             }
             if (k >= 2000) {
                 k -= 2000;
@@ -1502,10 +1508,10 @@ public class Client extends GameShell {
                     datainputstream.readFully(class44_sub3_sub2.payload, 0, 40);
                     datainputstream.close();
                     for (int l = 0; l < 9; l++) {
-                        anIntArray1051[l] = class44_sub3_sub2.readUnsignedInt();
+                        anIntArray1051[l] = class44_sub3_sub2.readInt();
                     }
                     int i1 =
-                            class44_sub3_sub2.readUnsignedInt();
+                            class44_sub3_sub2.readInt();
                     int j1 = 1234;
                     for (int k1 = 0; k1 < 9;
                          k1++) {
@@ -1872,7 +1878,7 @@ public class Client extends GameShell {
                     aClass7_1099.method194(aClass44_Sub3_Sub2_1132.payload, 0, 1);
                     anInt1170 = aClass44_Sub3_Sub2_1132.payload[0] & 0xff;
                     if (aClass46_927 != null) {
-                        anInt1170 = anInt1170 - aClass46_927.value() & 0xff;
+                        anInt1170 = anInt1170 - aClass46_927.next() & 0xff;
                     }
                     anInt1169 = PacketConstants.PACKET_SIZES[anInt1170];
                     i--;
@@ -2090,7 +2096,7 @@ public class Client extends GameShell {
                 if (anInt1170 == 154) {
                     aBoolean898 = true;
                     int i2 = aClass44_Sub3_Sub2_1132.readUnsignedByte();
-                    int l10 = aClass44_Sub3_Sub2_1132.readUnsignedInt();
+                    int l10 = aClass44_Sub3_Sub2_1132.readInt();
                     int k15 = aClass44_Sub3_Sub2_1132.readUnsignedByte();
                     anIntArray851[i2] = l10;
                     anIntArray1035[i2] = k15;
@@ -2228,7 +2234,7 @@ public class Client extends GameShell {
                 }
                 if (anInt1170 == 243) {
                     long l3 = aClass44_Sub3_Sub2_1132.readLong();
-                    int i16 = aClass44_Sub3_Sub2_1132.readUnsignedInt();
+                    int i16 = aClass44_Sub3_Sub2_1132.readInt();
                     int i19 = aClass44_Sub3_Sub2_1132.readUnsignedByte();
                     boolean flag2 = false;
                     for (int i23 = 0; i23 < 100; i23++) {
@@ -2251,8 +2257,8 @@ public class Client extends GameShell {
                         try {
                             anIntArray1016[anInt928] = i16;
                             anInt928 = (anInt928 + 1) % 100;
-                            String s8 = ChatEncoder.method556((byte) -94, aClass44_Sub3_Sub2_1132, anInt1169 - 13);
-                            s8 = ChatCensor.method352(s8, anInt1242);
+                            String s8 = ChatDecompression.decompress(aClass44_Sub3_Sub2_1132, anInt1169 - 13);
+                            s8 = Sanitizer.cleanse(s8);
                             if (i19 == 2 || i19 == 3) {
                                 method17(7, (byte) -115, s8,
                                         "@cr2@" + TextUtils.method554(TextUtils.method551(l3, true), true));
@@ -2291,7 +2297,7 @@ public class Client extends GameShell {
                         class5_1.anIntArray101[k19] = aClass44_Sub3_Sub2_1132.readUnsignedShort();
                         int j21 = aClass44_Sub3_Sub2_1132.readUnsignedByte();
                         if (j21 == 255) {
-                            j21 = aClass44_Sub3_Sub2_1132.readUnsignedInt();
+                            j21 = aClass44_Sub3_Sub2_1132.readInt();
                         }
                         class5_1.anIntArray102[k19] = j21;
                     }
@@ -2473,7 +2479,7 @@ public class Client extends GameShell {
                     return true;
                 }
                 if (anInt1170 == 253) {
-                    anInt1231 = aClass44_Sub3_Sub2_1132.readUnsignedInt();
+                    anInt1231 = aClass44_Sub3_Sub2_1132.readInt();
                     anInt947 = aClass44_Sub3_Sub2_1132.readUnsignedShort();
                     anInt869 = aClass44_Sub3_Sub2_1132.readUnsignedByte();
                     anInt1023 = aClass44_Sub3_Sub2_1132.readUnsignedShort();
@@ -2807,7 +2813,7 @@ public class Client extends GameShell {
                         int l20 = aClass44_Sub3_Sub2_1132.readUnsignedShort();
                         int l22 = aClass44_Sub3_Sub2_1132.readUnsignedByte();
                         if (l22 == 255) {
-                            l22 = aClass44_Sub3_Sub2_1132.readUnsignedInt();
+                            l22 = aClass44_Sub3_Sub2_1132.readInt();
                         }
                         if (j18 >= 0 && j18 < class5_2.anIntArray101.length) {
                             class5_2.anIntArray101[j18] = l20;
@@ -2849,7 +2855,7 @@ public class Client extends GameShell {
                 }
                 if (anInt1170 == 97) {
                     int k9 = aClass44_Sub3_Sub2_1132.readUnsignedShort();
-                    int k14 = aClass44_Sub3_Sub2_1132.readUnsignedInt();
+                    int k14 = aClass44_Sub3_Sub2_1132.readInt();
                     anIntArray1024[k9] = k14;
                     if (anIntArray1214[k9] != k14) {
                         anIntArray1214[k9] = k14;
@@ -3255,7 +3261,7 @@ public class Client extends GameShell {
             GameObjectDefinition.method197(class47);
             FloorDefinition.method243(true, class47);
             ItemDefinition.method218(class47);
-            ActorDefinition.load(class47);
+            NPCType.load(class47);
             IdentityKit.method247(true, class47);
             SpotAnimation.method269(true, class47);
             Varp.method337(true, class47);
@@ -3325,7 +3331,7 @@ public class Client extends GameShell {
                 ai[i8] = l8 * i9 >> 16;
             }
             Scene.method314(ai, 500, 334, 3, 800, 512);
-            ChatCensor.method342(class47_4);
+            Sanitizer.load(class47_4);
             aClass10_866 = new MouseCapturer(228, this);
             startRunnable(aClass10_866, 10);
             GameObject.aClient1481 = this;
@@ -3935,7 +3941,7 @@ public class Client extends GameShell {
             aClass34_1197.method272((byte) 5);
             anInt826 = 0;
             if (byte0 != -89) {
-                Client.anInt1029 = aClass46_927.value();
+                Client.anInt1029 = aClass46_927.next();
             }
             for (int k2 = 0; k2 < 104; k2++) {
                 for (int l2 = 0; l2 < 104; l2++) {
@@ -3989,7 +3995,7 @@ public class Client extends GameShell {
     private void method41(int i, Widget class5) {
         try {
             if (i >= 0) {
-                anInt1152 = aClass46_927.value();
+                anInt1152 = aClass46_927.next();
             }
             int j = class5.anInt109;
             if (j >= 1 && j <= 100 || j >= 701 && j <= 800) {
@@ -4286,7 +4292,7 @@ public class Client extends GameShell {
             Npc npc = npcs[index];
             npcIds[npcCount++] = index;
             npc.lastUpdateTick = Client.tick;
-            npc.definition = ActorDefinition.getDefinition(buffer.readBits(11));
+            npc.definition = NPCType.getDefinition(buffer.readBits(11));
             npc.anInt1619 = npc.definition.boundaryDimension;
             npc.anInt1663 = npc.definition.degreesToTurn;
             npc.anInt1622 = npc.definition.walkAnimationId;
@@ -4557,7 +4563,7 @@ public class Client extends GameShell {
                 int l = class44_sub3_sub2.readUnsignedByte();
                 byte[] abyte0 = new byte[l];
                 Buffer class44_sub3_sub2_1 = new Buffer(abyte0);
-                class44_sub3_sub2.readBytes(abyte0, 0, l);
+                class44_sub3_sub2.readStringRaw(abyte0, 0, l);
                 aClass44_Sub3_Sub2Array1230[j] = class44_sub3_sub2_1;
                 class44_sub3_sub4_sub6_sub1.method537(false, class44_sub3_sub2_1);
             }
@@ -4644,8 +4650,8 @@ public class Client extends GameShell {
                     }
                     if (!flag && anInt1245 == 0) {
                         try {
-                            String s = ChatEncoder.method556((byte) -94, class44_sub3_sub2, k3);
-                            s = ChatCensor.method352(s, anInt1242);
+                            String s = ChatDecompression.decompress(class44_sub3_sub2, k3);
+                            s = Sanitizer.cleanse(s);
                             class44_sub3_sub4_sub6_sub1.overheadTextMessage = s;
                             class44_sub3_sub4_sub6_sub1.anInt1629 = k1 >> 8;
                             class44_sub3_sub4_sub6_sub1.anInt1630 = k1 & 0xff;
@@ -4666,7 +4672,7 @@ public class Client extends GameShell {
             }
             if ((i & 0x100) == 256) {
                 class44_sub3_sub4_sub6_sub1.graphicId = class44_sub3_sub2.readUnsignedShort();
-                int l1 = class44_sub3_sub2.readUnsignedInt();
+                int l1 = class44_sub3_sub2.readInt();
                 class44_sub3_sub4_sub6_sub1.graphicHeight = l1 >> 16;
                 class44_sub3_sub4_sub6_sub1.graphicEndCycle = Client.tick + (l1 & 0xffff);
                 class44_sub3_sub4_sub6_sub1.currentAnimationId = 0;
@@ -5678,7 +5684,7 @@ public class Client extends GameShell {
         throw new RuntimeException();
     }
 
-    private void method58(int i, ActorDefinition class12, int j, int k, int l) {
+    private void method58(int i, NPCType class12, int j, int k, int l) {
         try {
             k = 43 / k;
             if (anInt971 >= 400) {
@@ -5869,7 +5875,7 @@ public class Client extends GameShell {
                             }
                         }
                     } else {
-                        ActorDefinition class12 = ((Npc) obj).definition;
+                        NPCType class12 = ((Npc) obj).definition;
                         if (class12.headIcon >= 0 && class12.headIcon < aClass44_Sub3_Sub1_Sub2Array1183.length) {
                             method74(((Actor) (obj)).anInt1661 + 15, ((Actor) (obj)), 0);
                             if (anInt1064 > -1) {
@@ -6912,7 +6918,7 @@ public class Client extends GameShell {
     private void method74(int i, Actor class44_sub3_sub4_sub6, int j) {
         try {
             if (j != 0) {
-                anInt964 = aClass46_927.value();
+                anInt964 = aClass46_927.next();
             }
             method75(class44_sub3_sub4_sub6.anInt1615, i, (byte) -79, class44_sub3_sub4_sub6.anInt1616);
             return;
@@ -6968,9 +6974,9 @@ public class Client extends GameShell {
             GameObjectDefinition.aClass39_251.clear();
             GameObjectDefinition.aClass39_252.clear();
             if (byte0 != -71) {
-                anInt1056 = aClass46_927.value();
+                anInt1056 = aClass46_927.next();
             }
-            ActorDefinition.modelCache.clear();
+            NPCType.modelCache.clear();
             ItemDefinition.aClass39_369.clear();
             ItemDefinition.aClass39_370.clear();
             Player.aClass39_1696.clear();
@@ -8029,7 +8035,7 @@ public class Client extends GameShell {
                 aClass44_Sub3_Sub2_850.writeInt(SignLink.uid);
                 aClass44_Sub3_Sub2_850.writeString(s);
                 aClass44_Sub3_Sub2_850.writeString(s1);
-                aClass44_Sub3_Sub2_850.generateKeys(Settings.KEY, Settings.MODULUS);
+                aClass44_Sub3_Sub2_850.rsa(Settings.KEY, Settings.MODULUS);
                 aClass44_Sub3_Sub2_822.offset = 0;
                 if (flag) {
                     aClass44_Sub3_Sub2_822.writeByte(18);
@@ -8045,11 +8051,11 @@ public class Client extends GameShell {
                 }
                 aClass44_Sub3_Sub2_822
                         .writeBytes(aClass44_Sub3_Sub2_850.payload, aClass44_Sub3_Sub2_850.offset, 0);
-                aClass44_Sub3_Sub2_850.encryptor = new ISAACRandom(ai, (byte) -23);
+                aClass44_Sub3_Sub2_850.cipher = new ISAACRandom(ai);
                 for (int i2 = 0; i2 < 4; i2++) {
                     ai[i2] += 50;
                 }
-                aClass46_927 = new ISAACRandom(ai, (byte) -23);
+                aClass46_927 = new ISAACRandom(ai);
                 aClass7_1099.method195(0, aClass44_Sub3_Sub2_822.payload, 2, aClass44_Sub3_Sub2_822.offset);
                 k = aClass7_1099.method192();
             }
@@ -9064,7 +9070,7 @@ public class Client extends GameShell {
                 break;
             }
             if (j != 705) {
-                anInt857 = aClass46_927.value();
+                anInt857 = aClass46_927.next();
             }
         } catch (RuntimeException runtimeexception) {
             SignLink.error("20699, " + i + ", " + j + ", " + class44_sub3_sub4_sub6_sub1 + ", " + k + ", " + l
@@ -10613,10 +10619,10 @@ public class Client extends GameShell {
                             aClass44_Sub3_Sub2_850.writeByte(0);
                             int k = aClass44_Sub3_Sub2_850.offset;
                             aClass44_Sub3_Sub2_850.writeLong(aLong967);
-                            ChatEncoder.method557(aString1007, aClass44_Sub3_Sub2_850, 991);
+                            ChatCompression.compress(aString1007, aClass44_Sub3_Sub2_850);
                             aClass44_Sub3_Sub2_850.writeSizeByte(aClass44_Sub3_Sub2_850.offset - k);
-                            aString1007 = ChatEncoder.method558(aString1007, anInt1242);
-                            aString1007 = ChatCensor.method352(aString1007, anInt1242);
+                            aString1007 = ChatDecompression.decompressFromCompression(aString1007);
+                            aString1007 = Sanitizer.cleanse(aString1007);
                             method17(6, (byte) -115, aString1007,
                                     TextUtils.method554(TextUtils.method551(aLong967, true), true));
                             if (anInt895 == 2) {
@@ -10749,10 +10755,10 @@ public class Client extends GameShell {
                             int j2 = aClass44_Sub3_Sub2_850.offset;
                             aClass44_Sub3_Sub2_850.writeByte(k1);
                             aClass44_Sub3_Sub2_850.writeByte(i2);
-                            ChatEncoder.method557(aString1141, aClass44_Sub3_Sub2_850, 991);
+                            ChatCompression.compress(aString1141, aClass44_Sub3_Sub2_850);
                             aClass44_Sub3_Sub2_850.writeSizeByte(aClass44_Sub3_Sub2_850.offset - j2);
-                            aString1141 = ChatEncoder.method558(aString1141, anInt1242);
-                            aString1141 = ChatCensor.method352(aString1141, anInt1242);
+                            aString1141 = ChatDecompression.decompressFromCompression(aString1141);
+                            aString1141 = Sanitizer.cleanse(aString1141);
                             Client.localPlayer.overheadTextMessage = aString1141;
                             Client.localPlayer.anInt1629 = k1;
                             Client.localPlayer.anInt1630 = i2;
@@ -11812,7 +11818,7 @@ public class Client extends GameShell {
                 npc.maxHealth = buffer.readUnsignedByte();
             }
             if ((mask & 0x20) == 32) {
-                npc.definition = ActorDefinition.getDefinition(buffer.readUnsignedShort());
+                npc.definition = NPCType.getDefinition(buffer.readUnsignedShort());
                 npc.anInt1619 = npc.definition.boundaryDimension;
                 npc.anInt1663 = npc.definition.degreesToTurn;
                 npc.anInt1622 = npc.definition.walkAnimationId;
@@ -11823,7 +11829,7 @@ public class Client extends GameShell {
             }
             if ((mask & 0x40) == 64) {
                 npc.graphicId = buffer.readUnsignedShort();
-                int delay = buffer.readUnsignedInt();
+                int delay = buffer.readInt();
                 npc.graphicHeight = delay >> 16;
                 npc.graphicEndCycle = Client.tick + (delay & 0xffff);
                 npc.currentAnimationId = 0;
@@ -12124,7 +12130,7 @@ public class Client extends GameShell {
             aClass34_1271 = null;
             method128(false);
             GameObjectDefinition.method198((byte) 42);
-            ActorDefinition.nullLoader();
+            NPCType.nullLoader();
             ItemDefinition.method219((byte) 42);
             FloorDefinition.aClass20Array430 = null;
             IdentityKit.cache = null;

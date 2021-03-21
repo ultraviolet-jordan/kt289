@@ -5,73 +5,54 @@ import com.kt289.util.aggregation.LinkedList;
 import com.kt289.isaac.ISAACRandom;
 
 import java.math.BigInteger;
+import java.util.stream.IntStream;
 
 public class Buffer extends CacheableNode {
 
-    private static int[] anIntArray1394;
     private static final int[] BIT_MASKS = {
             0, 1, 3, 7, 15, 31, 63, 127, 255, 511, 1023, 2047, 4095, 8191, 16383, 32767,
             65535, 0x1ffff, 0x3ffff, 0x7ffff, 0xfffff, 0x1fffff, 0x3fffff, 0x7fffff, 0xffffff,
             0x1ffffff, 0x3ffffff, 0x7ffffff, 0xfffffff, 0x1fffffff, 0x3fffffff, 0x7fffffff, -1};
+    private static final LinkedList small = new LinkedList();
+    private static final LinkedList normal = new LinkedList();
+    private static final LinkedList large = new LinkedList();
     private static int cacheCountSmall;
     private static int cacheCountNormal;
     private static int cacheCountLarge;
-    private static final LinkedList BUFFER_CACHE_SMALL = new LinkedList();
-    private static final LinkedList BUFFER_CACHE_NORMAL = new LinkedList();
-    private static final LinkedList BUFFER_CACHE_LARGE = new LinkedList();
-
-    static {
-        Buffer.anIntArray1394 = new int[256];
-        for (int j = 0; j < 256; j++) {
-            int i = j;
-            for (int k = 0; k < 8; k++) {
-                if ((i & 1) == 1) {
-                    i = i >>> 1 ^ 0xedb88320;
-                } else {
-                    i >>>= 1;
-                }
-            }
-            Buffer.anIntArray1394[j] = i;
-        }
-    }
 
     public byte[] payload;
     public int offset;
     public int bitOffset;
-    public ISAACRandom encryptor;
-
-    private Buffer() {
-    }
+    public ISAACRandom cipher;
 
     public Buffer(byte[] payload) {
         this.payload = payload;
         this.offset = 0;
     }
 
-    public static Buffer create(int j) {
-        synchronized (Buffer.BUFFER_CACHE_NORMAL) {
+    public static Buffer create(int type) {
+        synchronized (normal) {
             Buffer buffer = null;
-            if (j == 0 && Buffer.cacheCountSmall > 0) {
-                Buffer.cacheCountSmall--;
-                buffer = (Buffer) Buffer.BUFFER_CACHE_SMALL.pop();
-            } else if (j == 1 && Buffer.cacheCountNormal > 0) {
-                Buffer.cacheCountNormal--;
-                buffer = (Buffer) Buffer.BUFFER_CACHE_NORMAL.pop();
-            } else if (j == 2 && Buffer.cacheCountLarge > 0) {
-                Buffer.cacheCountLarge--;
-                buffer = (Buffer) Buffer.BUFFER_CACHE_LARGE.pop();
+            if (type == 0 && cacheCountSmall > 0) {
+                cacheCountSmall--;
+                buffer = (Buffer) small.pop();
+            } else if (type == 1 && cacheCountNormal > 0) {
+                cacheCountNormal--;
+                buffer = (Buffer) normal.pop();
+            } else if (type == 2 && cacheCountLarge > 0) {
+                cacheCountLarge--;
+                buffer = (Buffer) large.pop();
             }
             if (buffer != null) {
                 buffer.offset = 0;
-                Buffer copy = buffer;
-                return copy;
+                return buffer;
             }
         }
-        Buffer buffer = new Buffer();
+        Buffer buffer = new Buffer(null);
         buffer.offset = 0;
-        if (j == 0) {
+        if (type == 0) {
             buffer.payload = new byte[100];
-        } else if (j == 1) {
+        } else if (type == 1) {
             buffer.payload = new byte[5000];
         } else {
             buffer.payload = new byte[30000];
@@ -80,7 +61,7 @@ public class Buffer extends CacheableNode {
     }
 
     public void writePacket(int value) {
-        payload[offset++] = (byte) (value + encryptor.value());
+        payload[offset++] = (byte) (value + cipher.next());
     }
 
     public void writeByte(int value) {
@@ -135,9 +116,7 @@ public class Buffer extends CacheableNode {
     }
 
     public void writeBytes(byte[] payload, int length, int start) {
-        for (int index = start; index < start + length; index++) {
-            this.payload[offset++] = payload[index];
-        }
+        IntStream.range(start, start + length).forEach(index -> this.payload[offset++] = payload[index]);
     }
 
     public void writeSizeByte(int i) {
@@ -171,39 +150,43 @@ public class Buffer extends CacheableNode {
         return ((payload[offset - 3] & 0xff) << 16) + ((payload[offset - 2] & 0xff) << 8) + (payload[offset - 1] & 0xff);
     }
 
-    public int readUnsignedInt() {
+    public int readInt() {
         offset += 4;
         return ((payload[offset - 4] & 0xff) << 24) + ((payload[offset - 3] & 0xff) << 16) + ((payload[offset - 2] & 0xff) << 8) + (payload[offset - 1] & 0xff);
     }
 
     public long readLong() {
-        long ms = readUnsignedInt() & 0xffffffffL;
-        long ls = readUnsignedInt() & 0xffffffffL;
+        long ms = readInt() & 0xffffffffL;
+        long ls = readInt() & 0xffffffffL;
         return (ms << 32) + ls;
     }
 
     public String readString() {
         int tempOffset = offset;
-        while (payload[offset++] != 10) {
+        while (true) {
+            if (payload[offset++] == 10) {
+                break;
+            }
         }
         return new String(payload, tempOffset, offset - tempOffset - 1);
     }
 
-    public byte[] readBytes() {
+    public byte[] readStringRaw() {
         int tempOffset = offset;
-        while (payload[offset++] != 10) {
+        while (true) {
+            if (payload[offset++] == 10) {
+                break;
+            }
         }
         byte[] buf = new byte[offset - tempOffset - 1];
-        for (int index = tempOffset; index < offset - 1; index++) {
-            buf[index - tempOffset] = payload[index];
+        if (offset - 1 - tempOffset >= 0) {
+            System.arraycopy(payload, tempOffset, buf, 0, offset - 1 - tempOffset);
         }
         return buf;
     }
 
-    public void readBytes(byte[] payload, int start, int length) {
-        for (int index = start; index < start + length; index++) {
-            payload[index] = this.payload[offset++];
-        }
+    public void readStringRaw(byte[] payload, int start, int length) {
+        IntStream.range(start, start + length).forEach(index -> payload[index] = this.payload[offset++]);
     }
 
     public void initBitAccess() {
@@ -215,14 +198,15 @@ public class Buffer extends CacheableNode {
         int k = 8 - (bitOffset & 7);
         int bits = 0;
         bitOffset += amount;
-        for (; amount > k; k = 8) {
-            bits += (payload[offset++] & Buffer.BIT_MASKS[k]) << amount - k;
+        while (amount > k) {
+            bits += (payload[offset++] & BIT_MASKS[k]) << amount - k;
             amount -= k;
+            k = 8;
         }
         if (amount == k) {
-            bits += payload[offset] & Buffer.BIT_MASKS[k];
+            bits += payload[offset] & BIT_MASKS[k];
         } else {
-            bits += payload[offset] >> k - amount & Buffer.BIT_MASKS[amount];
+            bits += payload[offset] >> k - amount & BIT_MASKS[amount];
         }
         return bits;
     }
@@ -249,11 +233,11 @@ public class Buffer extends CacheableNode {
         }
     }
 
-    public void generateKeys(BigInteger key, BigInteger modulus) {
+    public void rsa(BigInteger key, BigInteger modulus) {
         int tempOffset = offset;
         offset = 0;
         byte[] buffer = new byte[tempOffset];
-        readBytes(buffer, 0, tempOffset);
+        readStringRaw(buffer, 0, tempOffset);
         BigInteger bigInteger = new BigInteger(buffer);
         BigInteger result = bigInteger.modPow(modulus, key);
         byte[] finalBuffer = result.toByteArray();

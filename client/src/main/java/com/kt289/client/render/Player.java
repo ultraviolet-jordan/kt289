@@ -3,7 +3,6 @@ package com.kt289.client.render;
 import com.kt289.client.cache.definition.*;
 import com.kt289.util.buffer.Buffer;
 import com.kt289.client.Client;
-import com.kt289.client.graphic.Model;
 import com.kt289.util.SignLink;
 import com.kt289.util.TextUtils;
 import com.kt289.util.aggregation.Cache;
@@ -35,7 +34,7 @@ public class Player extends Actor {
     public int anInt1691;
     public boolean aBoolean1692;
     private long aLong1693;
-    public ActorDefinition aClass12_1694;
+    public NPCType aClass12_1694;
     public int anInt1695;
 
     public Player() {
@@ -66,7 +65,7 @@ public class Player extends Actor {
                 int l = class44_sub3_sub2.readUnsignedByte();
                 anIntArray1676[i] = (j << 8) + l;
                 if (i == 0 && anIntArray1676[0] == 65535) {
-                    aClass12_1694 = ActorDefinition.getDefinition(class44_sub3_sub2.readUnsignedShort());
+                    aClass12_1694 = NPCType.getDefinition(class44_sub3_sub2.readUnsignedShort());
                     break;
                 }
                 if (anIntArray1676[i] >= 512 && anIntArray1676[i] - 512 < ItemDefinition.anInt323) {

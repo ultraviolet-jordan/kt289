@@ -1,8 +1,6 @@
 package com.kt289.client.render;
 
-import com.kt289.client.cache.definition.Animation;
 import com.kt289.client.cache.definition.SpotAnimation;
-import com.kt289.client.graphic.Model;
 import com.kt289.util.SignLink;
 
 public class Projectile extends Renderable {

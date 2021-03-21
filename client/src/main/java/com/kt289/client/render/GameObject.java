@@ -4,7 +4,6 @@ import com.kt289.client.cache.definition.AnimationSequence;
 import com.kt289.client.cache.definition.GameObjectDefinition;
 import com.kt289.client.cache.definition.VarBit;
 import com.kt289.client.Client;
-import com.kt289.client.graphic.Model;
 import com.kt289.util.SignLink;
 
 public class GameObject extends Renderable {

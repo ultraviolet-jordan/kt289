@@ -26,8 +26,8 @@ class SoundTrackEnvelope {
     public void method148(boolean flag, Buffer buffer) {
         try {
             anInt43 = buffer.readUnsignedByte();
-            anInt41 = buffer.readUnsignedInt();
-            anInt42 = buffer.readUnsignedInt();
+            anInt41 = buffer.readInt();
+            anInt42 = buffer.readInt();
             if (flag) {
                 for (int i = 1; i > 0; i++) {
                 }

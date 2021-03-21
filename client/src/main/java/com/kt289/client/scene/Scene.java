@@ -1,9 +1,9 @@
 package com.kt289.client.scene;
 
-import com.kt289.client.graphic.Model;
+import com.kt289.client.render.Model;
 import com.kt289.client.graphic.Rasterizer;
 import com.kt289.client.graphic.Rasterizer3D;
-import com.kt289.client.graphic.VertexNormal;
+import com.kt289.client.render.VertexNormal;
 import com.kt289.client.render.Renderable;
 import com.kt289.util.SignLink;
 import com.kt289.util.aggregation.LinkedList;

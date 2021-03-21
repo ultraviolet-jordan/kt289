@@ -1,9 +1,10 @@
 package com.kt289.client.cache.definition;
 
+import com.kt289.client.render.Animation;
 import com.kt289.util.buffer.Buffer;
-import com.kt289.client.cache.Archive;
-import com.kt289.client.cache.OnDemandRequester;
-import com.kt289.client.graphic.Model;
+import com.kt289.cache.Archive;
+import com.kt289.client.ondemand.OnDemandRequester;
+import com.kt289.client.render.Model;
 import com.kt289.util.SignLink;
 import com.kt289.util.aggregation.Cache;
 
@@ -178,7 +179,7 @@ public class GameObjectDefinition {
                     } else if (j == 2) {
                         aString218 = class44_sub3_sub2.readString();
                     } else if (j == 3) {
-                        aByteArray219 = class44_sub3_sub2.readBytes();
+                        aByteArray219 = class44_sub3_sub2.readStringRaw();
                     } else if (j == 5) {
                         int l = class44_sub3_sub2.readUnsignedByte();
                         if (l > 0) {

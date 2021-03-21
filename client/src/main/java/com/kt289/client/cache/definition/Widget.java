@@ -1,10 +1,11 @@
-package com.kt289.client.graphic;
+package com.kt289.client.cache.definition;
 
+import com.kt289.client.graphic.ImageRGB;
+import com.kt289.client.graphic.TypeFace;
+import com.kt289.client.render.Animation;
+import com.kt289.client.render.Model;
 import com.kt289.util.buffer.Buffer;
-import com.kt289.client.cache.Archive;
-import com.kt289.client.cache.definition.ActorDefinition;
-import com.kt289.client.cache.definition.Animation;
-import com.kt289.client.cache.definition.ItemDefinition;
+import com.kt289.cache.Archive;
 import com.kt289.client.Client;
 import com.kt289.util.SignLink;
 import com.kt289.util.TextUtils;
@@ -200,12 +201,12 @@ public class Widget {
                     class5.aString142 = class44_sub3_sub2.readString();
                 }
                 if (class5.anInt107 == 1 || class5.anInt107 == 3 || class5.anInt107 == 4) {
-                    class5.anInt143 = class44_sub3_sub2.readUnsignedInt();
+                    class5.anInt143 = class44_sub3_sub2.readInt();
                 }
                 if (class5.anInt107 == 3 || class5.anInt107 == 4) {
-                    class5.anInt144 = class44_sub3_sub2.readUnsignedInt();
-                    class5.anInt145 = class44_sub3_sub2.readUnsignedInt();
-                    class5.anInt146 = class44_sub3_sub2.readUnsignedInt();
+                    class5.anInt144 = class44_sub3_sub2.readInt();
+                    class5.anInt145 = class44_sub3_sub2.readInt();
+                    class5.anInt146 = class44_sub3_sub2.readInt();
                 }
                 if (class5.anInt107 == 5) {
                     String s = class44_sub3_sub2.readString();
@@ -257,7 +258,7 @@ public class Widget {
                         class5.aClass44_Sub3_Sub1_Sub4_140 = aclass44_sub3_sub1_sub4[i3];
                     }
                     class5.aBoolean139 = class44_sub3_sub2.readUnsignedByte() == 1;
-                    class5.anInt143 = class44_sub3_sub2.readUnsignedInt();
+                    class5.anInt143 = class44_sub3_sub2.readInt();
                     class5.anInt131 = class44_sub3_sub2.readShort();
                     class5.anInt132 = class44_sub3_sub2.readShort();
                     class5.aBoolean128 = class44_sub3_sub2.readUnsignedByte() == 1;
@@ -407,7 +408,7 @@ public class Widget {
             class44_sub3_sub4_sub4 = Model.getModel(j);
         }
         if (i == 2) {
-            class44_sub3_sub4_sub4 = ActorDefinition.getDefinition(j).getHeadModel();
+            class44_sub3_sub4_sub4 = NPCType.getDefinition(j).getHeadModel();
         }
         if (i == 3) {
             class44_sub3_sub4_sub4 = Client.localPlayer.method539(false);

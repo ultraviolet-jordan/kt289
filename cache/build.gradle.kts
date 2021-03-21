@@ -8,8 +8,6 @@ version = "1.0"
 repositories { }
 
 dependencies {
-    implementation(project(":cache"))
-    implementation(project(":chat"))
-    implementation(project(":isaac"))
+    implementation(project(":bzip2"))
     implementation(project(":util"))
 }
