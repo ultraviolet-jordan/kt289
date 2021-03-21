@@ -14,8 +14,8 @@ public class ChatDecompression {
         int count = 0;
         int value = -1;
         for (int index = 0; index < length; index++) {
-            int hash = buffer.readUnsignedByte();
-            int code = hash >> 4 & 0xf;
+            int packed = buffer.readUnsignedByte();
+            int code = packed >> 4 & 0xf;
             if (value == -1) {
                 if (code < 13) {
                     characters[count++] = PermittedCharacters.PERMITTED[code];
@@ -26,7 +26,7 @@ public class ChatDecompression {
                 characters[count++] = PermittedCharacters.PERMITTED[((value << 4) + code) - 195];
                 value = -1;
             }
-            code = hash & 0xf;
+            code = packed & 0xf;
             if (value == -1) {
                 if (code < 13) {
                     characters[count++] = PermittedCharacters.PERMITTED[code];
